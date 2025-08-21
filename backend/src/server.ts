@@ -1,14 +1,17 @@
+import 'tsconfig-paths/register';
 import http from 'http';
 import { createApp } from './app';
-import { connectDB } from './config/db';
-import { env } from './config/env';
+import { connectDB } from '@config/db';
+import { env } from '@config/env';
 
 const app = createApp();
 const server = http.createServer(app);
 
-const start = async () => {
+const startServer = async () => {
   await connectDB();
-  server.listen(Number(env.PORT), () => console.log(`Server listening on ${env.PORT}`));
+
+  const port = env.NODE_ENV === 'prod' ? process.env.PORT : Number(env.LOCAL_PORT);
+  server.listen(port, () => console.log(`Server listening on ${port}`));
 };
 
-start().catch(err => { console.error('Failed to start', err); process.exit(1); });
+startServer().catch(err => { console.error('Failed to start', err); process.exit(1); });

@@ -1,6 +1,7 @@
 import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IUser extends Document {
+  _id: Types.ObjectId;
   username: string;
   email: string;
   passwordHash: string;
@@ -23,8 +24,5 @@ const userSchema = new Schema<IUser>({
   followersCount: { type: Number, default: 0 },
   followingCount: { type: Number, default: 0 }
 }, { timestamps: true });
-
-userSchema.index({ username: 1 });
-userSchema.index({ email: 1 });
 
 export const User = model<IUser>('User', userSchema);

@@ -11,7 +11,18 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@config/*": ["./config/*"],
+      "@middlewares/*": ["./middlewares/*"],
+      "@controllers/*": ["./controllers/*"],
+      "@models/*": ["./models/*"],
+      "@services/*": ["./services/*"],
+      "@validators/*": ["./validators/*"],
+      "@utils/*": ["./utils/*"],
+      "@routes/*": ["./routes/*"],
+    },
   },
   "include": ["src/**/*"]
 }
