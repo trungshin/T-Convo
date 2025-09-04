@@ -17,11 +17,11 @@ type LeftNavModalProps = {
 export default function LeftNavModal({
   open,
   onOpenChange,
-  title = 'Say more with Threads',
-  description = "Join Threads to share thoughts, find out what's going on, follow your people and more.",
+  title = 'Say more with TConvo',
+  description = "Join TConvo to share thoughts, find out what's going on, follow your people and more.",
   showInstagram = true,
-  actionLabel = 'Continue with Instagram',
-  actionHref = '/api/auth/instagram'
+  actionLabel = 'Log in to TConvo',
+  actionHref = '/login'
 }: LeftNavModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

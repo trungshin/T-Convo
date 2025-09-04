@@ -2,6 +2,7 @@
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 import { Providers } from './providers';
+import UnauthLeftNav from '@/components/UnauthLeftNav';
 // import Header from '@/components/header';
 // import LeftNav from '@/components/leftNav';
 // import RightSidebar from '@/components/rightSideBar';
@@ -13,8 +14,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Providers>
-           <section>{children}</section>
-           <Toaster />
+          {children}
+          <Toaster position="top-center"/>
           {/* <Header />
           <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 p-4">
             <aside className="hidden md:block"><LeftNav /></aside>

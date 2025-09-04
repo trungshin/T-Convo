@@ -19,14 +19,14 @@ import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
 import { FormData, LoginSchema } from '@/types/auth';
 import FormField from '@/components/FormField';
-import { Eye, EyeOff } from 'lucide-react';
+import HideShowPassword from '@/components/HideShowPass';
 
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useSearchParams();
-  const from = params?.get('from') || '/';
+  const from = params?.get('from') || '/home';
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -51,7 +51,10 @@ const onSubmit = async (data: FormData) => {
       if (accessToken) {
         dispatch(authActions.setAccessToken(accessToken));
         dispatch(authActions.setUser(user));
-        router.push(from);
+        toast.success('Login successful');
+        setTimeout(() => {
+          router.push(from);
+        }, 1000);
       }
     } catch (error) {
       console.error(error);
@@ -93,19 +96,7 @@ const onSubmit = async (data: FormData) => {
                   name="password"
                   aria-label="password"
                 />
-                <Button
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                    aria-pressed={showPassword}
-                    onClick={() => setShowPassword((s) => !s)}
-                    className="absolute inset-y-0 right-2 flex items-center text-muted hover:text-white/80 cursor-pointer"
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </Button>
-              </div>
-              <div className="text-sm text-muted">
-                <a href="/forgot" className="hover:underline">
-                  Forgotten password?
-                </a>
+                <HideShowPassword showPassword={showPassword} setShowPassword={setShowPassword} />
               </div>
 
               <div>
@@ -121,6 +112,12 @@ const onSubmit = async (data: FormData) => {
                 <div className="flex-1 h-px bg-[rgba(255,255,255,0.03)]" />
                 <div className="text-xs text-muted">or</div>
                 <div className="flex-1 h-px bg-[rgba(255,255,255,0.03)]" />
+              </div>
+
+              <div className="text-center text-sm text-muted">
+                <a href="/forgot" className="hover:underline">
+                  Forgotten password?
+                </a>
               </div>
 
               <div className='text-center text-sm text-muted'>

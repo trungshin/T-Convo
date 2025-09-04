@@ -33,3 +33,8 @@ export type FormData = {
   | "email"
   | "password"
   | "username"
+
+  export type ShowPasswordProps = {
+    showPassword: boolean;
+    setShowPassword: (show: boolean) => void;
+  };

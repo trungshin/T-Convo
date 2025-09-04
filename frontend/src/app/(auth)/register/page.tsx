@@ -15,8 +15,9 @@ import { Button } from '@/components/ui/button';
 import { FormData, SignUpSchema } from '@/types/auth';
 import FormField from '@/components/FormField';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Eye, EyeOff } from 'lucide-react';
+import { set, useForm } from 'react-hook-form';
+import HideShowPassword from '@/components/HideShowPass';
+import { toast } from 'sonner';
 
 
 export default function Register() {
@@ -44,7 +45,10 @@ export default function Register() {
       const { accessToken, user } = response.data;
       dispatch(authActions.setAccessToken(accessToken));
       dispatch(authActions.setUser(user));
-      router.push('/');
+      toast.success('Registration successful! Please log in to your account.');
+      setTimeout(() => {
+        router.push('/login');
+      }, 1000);
     } catch (error) {
       console.error('Registration error:', error);
     }
@@ -86,21 +90,14 @@ export default function Register() {
               </div>
               <div className="relative">
                 <FormField
-                  type="password"
+                  type={showPassword ? 'password' : 'text'}
                   className="input w-full"
                   placeholder="Password"
                   register={register}
                   error={errors.password}
                   name="password"
                 />
-                <Button
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  aria-pressed={showPassword}
-                  onClick={() => setShowPassword((s) => !s)}
-                  className="absolute inset-y-0 right-2 flex items-center text-muted hover:text-white/80 cursor-pointer"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </Button>
+                <HideShowPassword showPassword={showPassword} setShowPassword={setShowPassword} /> 
               </div>
 
               <div>

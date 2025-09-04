@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import { Home, Search, PlusSquare, Heart, User } from 'lucide-react';
 import Image from 'next/image';
 import LeftNavModal from '@/components/LeftNavModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 export default function UnauthLeftNav() {
+  const user = useSelector((s: RootState) => s.auth.user);
+
   const items = [
     { label: 'Home', icon: <Home size={20} />, key: 'home' },
     { label: 'Explore', icon: <Search size={20} />, key: 'explore' },
@@ -18,8 +22,8 @@ export default function UnauthLeftNav() {
 
   const openFor = (key: string) => {
     // Customize title/description per item if desired
-    let title = 'Say more with Threads';
-    let desc = "Join Threads to share thoughts, find out what's going on, follow your people and more.";
+    let title = 'Say more with TConvo';
+    let desc = "Join TConvo to share thoughts, find out what's going on, follow your people and more.";
     if (key === 'explore') {
       title = 'Explore what’s happening';
       desc = 'Discover hashtags, creators and trending conversations.';
@@ -53,7 +57,7 @@ export default function UnauthLeftNav() {
           {items.map(i => (
             <li key={i.key}>
               <button
-                onClick={() => openFor(i.key)}
+                onClick={() => user ? alert('You are logged in') : openFor(i.key)}
                 className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/4 transition-colors cursor-pointer"
                 aria-label={i.label}
               >
@@ -70,7 +74,7 @@ export default function UnauthLeftNav() {
         onOpenChange={(v) => setModalOpen(v)}
         title={modalContent?.title}
         description={modalContent?.desc}
-        actionHref="/api/auth/instagram"
+        actionHref="/login"
       />
     </div>
   );
