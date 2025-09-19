@@ -40,6 +40,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.1",
+    "@types/streamifier": "^0.1.2",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "tsc-watch": "^7.1.1",

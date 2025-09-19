@@ -3,9 +3,11 @@ import http from 'http';
 import { createApp } from './app';
 import { connectDB } from '@config/db';
 import { env } from '@config/env';
+import { initSocket } from '@sockets/index';
 
 const app = createApp();
 const server = http.createServer(app);
+initSocket(server);
 
 const startServer = async () => {
   await connectDB();
