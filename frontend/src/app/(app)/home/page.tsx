@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogFooter, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -86,11 +86,12 @@ export default function AppPage() {
           <Card className="card card-hover my-4 cursor-pointer">
             <CardContent>
               <div className="flex items-start gap-3">
-                <Avatar>
+                <Avatar className="rounded-full w-11 h-11">
                   <AvatarImage
                     src={user?.avatarUrl ?? undefined}
                     alt={user?.displayName ?? user?.username}
                   />
+                  <AvatarFallback className="w-11 h-11 rounded-full bg-zinc-700 flex items-center justify-center text-white">{user?.username[0].toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div

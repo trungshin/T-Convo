@@ -1,13 +1,31 @@
 'use client';
 import React, { useState } from 'react';
-import { Home, Search, PlusSquare, Heart, User } from 'lucide-react';
+import { Home, Search, PlusSquare, Heart, User, LogOut } from 'lucide-react';
 import Image from 'next/image';
 import LeftNavModal from '@/components/LeftNavModal';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from "@/store";
+import api from '@/lib/api';
+import { authActions } from '@/store/authSlice';
+
 
 export default function UnauthLeftNav() {
   const user = useSelector((s: RootState) => s.auth.user);
+  const accessToken = useSelector((s: RootState) => s.auth.accessToken);
+  const dispatch = useDispatch<AppDispatch>();
+  const logoutHandler = async() => {
+     try {
+          const response = await api.post('/auth/logout', user, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          console.log(response);
+          dispatch(authActions.logout());
+        } catch (error) {
+          console.error(error);
+        }
+  }
 
   const items = [
     { label: 'Home', icon: <Home size={20} />, key: 'home' },
@@ -46,7 +64,7 @@ export default function UnauthLeftNav() {
 
   return (
     <div className="sticky top-6">
-      <div className="flex flex-col items-center md:items-start gap-4">
+      <div className="flex flex-col items-center md:items-start gap-4 min-h-[calc(100vh-4rem)]">
         <div className="p-2 rounded-full hover:bg-white/5">
           <div className="w-11 h-11 rounded-full flex items-center justify-center bg-transparent border border-white/6">
             <Image src="/tconvoLogo.png" alt="Logo" width={44} height={44} className="rounded-full"  />
@@ -67,6 +85,20 @@ export default function UnauthLeftNav() {
             </li>
           ))}
         </ul>
+         {
+          user && (
+            <div className="mt-auto">
+          <button
+            onClick={logoutHandler}
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/4 transition-colors cursor-pointer"
+          >
+            <span className="text-gray-200"><LogOut size={20} /></span>
+            <span className="hidden md:inline text-sm font-medium">Log out</span>
+          </button>
+        </div>
+          )
+         }
+        
       </div>
       {/* Modal */}
       <LeftNavModal

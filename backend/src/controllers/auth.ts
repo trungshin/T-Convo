@@ -15,8 +15,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'none',
-      path: '/api/auth/refresh',
+      sameSite: 'strict',
+      path: '/',
       maxAge: env.REFRESH_TOKEN_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000
     });
 
@@ -34,8 +34,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'none',
-      path: '/api/auth/refresh',
+      sameSite: 'strict',
+      path: '/',
       maxAge: env.REFRESH_TOKEN_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000
     });
     res.status(StatusCodes.OK).json({ accessToken, user: { id: user._id, username: user.username } });
@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const refresh = async (req: Request, res: Response, next: NextFunction) => {
-  const refreshTokenCookie = req.cookies[REFRESH_COOKIE_NAME];
+  const refreshTokenCookie = req.body.refreshToken;
   if (!refreshTokenCookie) {
     return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Refresh token cookie missing' });
   }
@@ -56,8 +56,8 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'none',
-      path: '/api/auth/refresh',
+      sameSite: 'strict',
+      path: '/',
       maxAge: env.REFRESH_TOKEN_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000
     });
 
@@ -69,6 +69,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
 
 export const logout = async (req: Request, res: Response, next: NextFunction) => {
   const refreshTokenCookie = req.cookies[REFRESH_COOKIE_NAME];
+  console.log(refreshTokenCookie);
 
   if (!refreshTokenCookie) {
     return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Refresh token cookie is missing' });

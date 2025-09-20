@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
@@ -25,8 +25,9 @@ export function PostCard({ post }: { post: IPost }) {
     <Card className="card card-hover my-4 cursor-pointer">
           <CardHeader>
             <div className="flex items-start gap-3">
-              <Avatar className="md">
+              <Avatar className="rounded-full w-11 h-11">
                 <AvatarImage src={author?.avatarUrl ?? undefined} alt={author?.displayName ?? author?.username} />
+                <AvatarFallback className="w-11 h-11 rounded-full bg-zinc-700 flex items-center justify-center text-white">{author?.username[0].toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -48,7 +49,7 @@ export function PostCard({ post }: { post: IPost }) {
               {content}
             </p>
     
-            {media === null ? null : (
+            {media && (
               <div className="mt-2">
                 <Image
                   src={media as string}
