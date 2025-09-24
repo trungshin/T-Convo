@@ -12,7 +12,7 @@ initSocket(server);
 const startServer = async () => {
   await connectDB();
 
-  const port = env.NODE_ENV === 'prod' ? process.env.PORT : Number(env.LOCAL_PORT);
+  const port = env.NODE_ENV === 'production' ? process.env.PORT : Number(env.LOCAL_PORT);
   server.listen(port, () => console.log(`Server listening on ${port}`));
 };
 

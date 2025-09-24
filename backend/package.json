@@ -4,7 +4,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon --watch src --exec ts-node src/server.ts",
-    "build": "NODE_ENV=prod tsc -p .",
+    "build": "tsc -p .",
     "start": "node dist/server.js",
     "lint": "eslint . --ext .ts"
   },
