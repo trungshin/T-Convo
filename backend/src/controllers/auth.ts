@@ -15,7 +15,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
       maxAge: env.REFRESH_TOKEN_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000
     });
@@ -34,7 +34,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
       maxAge: env.REFRESH_TOKEN_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000
     });
@@ -56,7 +56,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
       maxAge: env.REFRESH_TOKEN_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000
     });
