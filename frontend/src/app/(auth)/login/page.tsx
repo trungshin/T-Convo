@@ -1,7 +1,7 @@
 // /components/pages/LoginPage.tsx
 "use client";
 import React, { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { useDispatch } from "react-redux";
 import { authActions } from "@/store/authSlice";
@@ -23,9 +23,6 @@ import HideShowPassword from "@/components/HideShowPass";
 export default function LoginPage() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const params = useSearchParams();
-  const from = params?.get("from") || "/home";
-
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -53,7 +50,7 @@ export default function LoginPage() {
         dispatch(authActions.setUser(user));
         toast.success("Login successful");
         setTimeout(() => {
-          router.push(from);
+          router.push("/home");
         }, 1000);
       }
     } catch (error) {
