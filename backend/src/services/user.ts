@@ -14,6 +14,11 @@ export const getUserById = async (userId: string) => {
 
 export const getUserByUsername = async (username: string) => {
   const user = await User.findOne({ username: username.toLowerCase() }).select('-passwordHash');
+
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
   return user;
 };
 

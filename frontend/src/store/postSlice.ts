@@ -25,9 +25,32 @@ export const createPost = createAsyncThunk(
     } catch (error: unknown) {
       console.error('Create post error:', error); // Log chi tiết để debug
       if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data?.message || error.message || 'Failed to fetch posts user');
+      }
+      return rejectWithValue('Failed to create post user');
+    }
+  }
+);
+
+export const fetchPostsUser = createAsyncThunk(
+  'posts/fetchPostsUser',
+  async (token: string, { rejectWithValue }) => { // Sử dụng rejectWithValue để trả về error tùy chỉnh
+    console.log("Token: ", token);
+    try {
+      // const response = await api.get(`/api/posts?feed=${feed}`);
+      const response = await api.get('/post', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('Fetched posts:', response);
+      return response.data.posts.posts as IPost[]; // Axios tự parse JSON, trả về data trực tiếp
+    } catch (error: unknown) {
+      console.error('Fetch posts error:', error); // Log chi tiết để debug
+      if (axios.isAxiosError(error)) {
         return rejectWithValue(error.response?.data?.message || error.message || 'Failed to fetch posts');
       }
-      return rejectWithValue('Failed to create post');
+      return rejectWithValue('Failed to fetch posts');
     }
   }
 );
@@ -64,6 +87,20 @@ const slice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) { state.isLoading = action.payload; }
     },
     extraReducers: (builder) => {
+      builder
+        .addCase(fetchPostsUser.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(fetchPostsUser.fulfilled, (state, { payload }) => {
+          state.isLoading = false;
+          state.posts = payload;
+        })
+        .addCase(fetchPostsUser.rejected, (state, { payload }) => {
+          state.isLoading = false;
+          state.error = payload as string;
+        });
+
       builder
         .addCase(fetchPosts.pending, (state) => {
           state.isLoading = true;

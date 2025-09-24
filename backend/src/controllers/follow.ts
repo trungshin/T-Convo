@@ -3,7 +3,7 @@ import * as followService from '@services/follow';
 import { StatusCodes } from 'http-status-codes';
 
 export const followUserHandler = async (req: Request, res: Response, next: NextFunction) => {
-  const followerId = req.body.user?.id;
+  const followerId = req.body.userId;
   const followeeId = req.params.id;
 
   if (!followerId || !followeeId) {
@@ -33,7 +33,7 @@ export const unfollowUserHandler = async (req: Request, res: Response, next: Nex
 
 export const getFollowersHandler = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.id;
-  const limit = parseInt(req.query.limit as string) || 100; 
+  const limit = parseInt(req.query.limit as string) || 50; 
 
   try {
     const followers = await followService.getFollowers(userId, limit);

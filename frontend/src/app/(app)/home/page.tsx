@@ -3,18 +3,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/store";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogFooter, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { IPost } from "@/types/post";
 import { createPost, fetchPosts } from "@/store/postSlice";
 import { PostCard } from "@/components/PostCard";
 import InputDemo from "@/components/input-12";
@@ -26,7 +19,7 @@ export default function AppPage() {
   const posts = useSelector((s: RootState) => s.posts.posts);
   console.log("Posts in state: ", posts);
   // const { isLoading, error } = useSelector((state: RootState) => state.posts);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   // const [author, setAuthor] = useState('');
   const [mediaFiles, setMediaFiles] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -40,30 +33,29 @@ export default function AppPage() {
       media: mediaFiles,
       likesCount: 0,
       commentsCount: 0,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
     console.log("New Post Data: ", newPost);
-    const result = await dispatch(createPost({newPost, token: accessToken!}));
+    const result = await dispatch(createPost({ newPost, token: accessToken! }));
     if (createPost.fulfilled.match(result)) {
       // Optional: Clear form hoặc show success toast
-      setContent('');
+      setContent("");
       setMediaFiles(null);
       setOpen(false);
-      console.log('Post created successfully!');
+      console.log("Post created successfully!");
     } else {
       // Error đã được set trong extraReducers, chỉ cần hiển thị
-      console.error('Failed to create post');
+      console.error("Failed to create post");
     }
-  }
+  };
   useEffect(() => {
     const loadPosts = async () => {
       if (!accessToken) return;
       const resultAction = await dispatch(fetchPosts(accessToken));
-      console.log("resultAction:", resultAction);
       if (fetchPosts.fulfilled.match(resultAction)) {
-        console.log('Posts fetched successfully!');
+        console.log("Posts fetched successfully!");
       } else {
-        console.error('Failed to fetch posts');
+        console.error("Failed to fetch posts");
       }
     };
     loadPosts();
@@ -91,7 +83,9 @@ export default function AppPage() {
                     src={user?.avatarUrl ?? undefined}
                     alt={user?.displayName ?? user?.username}
                   />
-                  <AvatarFallback className="w-11 h-11 rounded-full bg-zinc-700 flex items-center justify-center text-white">{user?.username[0].toUpperCase()}</AvatarFallback>
+                  <AvatarFallback className="w-11 h-11 rounded-full bg-zinc-700 flex items-center justify-center text-white">
+                    {user?.username[0].toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div
@@ -110,7 +104,11 @@ export default function AppPage() {
               </div>
             </CardContent>
           </Card>
-          {posts.length > 0 ? posts.map((post) => (<PostCard key={post._id} post={post} />)) : <div>No posts available.</div>}
+          {posts.length > 0 ? (
+            posts.map((post) => <PostCard key={post._id} post={post} />)
+          ) : (
+            <div>No posts available.</div>
+          )}
         </div>
       </main>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -124,7 +122,6 @@ export default function AppPage() {
               Cancel
             </button>
             <DialogTitle>New convo</DialogTitle>
-            {/* <div className="font-semibold">New convo</div> */}
             <div className="w-12" />
           </div>
 
@@ -165,8 +162,11 @@ export default function AppPage() {
               </div>
             </div>
           </div>
-            
-          <Button onClick={handleCreatePost} className="ml-auto rounded-md border border-zinc-700 text-sm text-zinc-200 hover:bg-white/5">
+
+          <Button
+            onClick={handleCreatePost}
+            className="ml-auto rounded-md border border-zinc-700 text-sm text-zinc-200 hover:bg-white/5"
+          >
             Post
           </Button>
         </DialogContent>

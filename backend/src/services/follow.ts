@@ -43,7 +43,7 @@ export const getFollowers = async (userId: string, limit = 100) => {
   });
 };
 
-export const getFollowing = async (userId: string, limit = 100) => {
+export const getFollowing = async (userId: string, limit = 50) => {
   const docs = await Follow.find({ follower: new Types.ObjectId(userId) })
     .sort({ createdAt: -1 })
     .limit(limit)

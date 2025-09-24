@@ -60,7 +60,7 @@ export const getFollowingIds = async (userId: string): Promise<string[]> => {
  * - pagination: cursor is a stringified JSON: { createdAt, _id } representing the last item seen.
  * Returns { posts, nextCursor? } where nextCursor is stringified JSON for next page (or undefined).
  */
-export const getFeed = async (
+export const getPostFromUser = async (
   // feed: 'home' | 'following',
   userId: Types.ObjectId | null,
   // cursor?: string,
@@ -92,6 +92,52 @@ export const getFeed = async (
   // }
 
   const posts = await Post.find({ author: userId })
+    .sort({ createdAt: -1 })
+    // .limit(limit + 1)
+    .populate('author', 'username displayName media avatarUrl')
+    .lean();
+  console.log('Fetched posts:', posts);
+  // const hasMore = docs.length > limit;
+  // const posts = hasMore ? docs.slice(0, limit) : docs;
+  // const nextCursor = hasMore && posts.length > 0
+  //   ? JSON.stringify({ createdAt: posts[posts.length - 1].createdAt, _id: posts[posts.length - 1]._id })
+  //   : undefined;
+
+  return { posts };
+};
+
+export const getFeed = async (
+  // feed: 'home' | 'following',
+  // userId: Types.ObjectId | null,
+  // cursor?: string,
+  // limit = 20
+): Promise<{ posts: (any)[] }> => {
+  // const query: any = { isDeleted: false };
+  // let following: string[] = [];
+
+  // if (feed === 'home' && userId) {
+  //   following = await getFollowingIds(userId);
+  //   if (following.length === 0) {
+  //     return { posts: [], nextCursor: undefined };
+  //   }
+  //   query.author = { $in: following.map(id => new Types.ObjectId(id)) }; // ensure ObjectId type for query execution in MongoDB atlas cluster 
+  // }
+
+  // if (cursor) {
+  //   try {
+  //     const parsed: CursorObj = JSON.parse(cursor);
+  //     const createdAt = new Date(parsed.createdAt);
+  //     const id = new Types.ObjectId(parsed._id);
+  //     query.$or = [
+  //       { createdAt: { $lt: createdAt } },
+  //       { createdAt, _id: { $lt: id } }
+  //     ];
+  //   } catch (err) {
+  //     console.warn('Malformed feed cursor, ignoring:', err);
+  //   }
+  // }
+
+  const posts = await Post.find()
     .sort({ createdAt: -1 })
     // .limit(limit + 1)
     .populate('author', 'username displayName media avatarUrl')

@@ -2,13 +2,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '@/store/authSlice';
 import postsReducer from '@/store/postSlice';
-// import postsReducer from './posts.slice';
+import userReducer from '@/store/userSlice';
 // import notificationsReducer from './notifications.slice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     posts: postsReducer,
+    user: userReducer
     // notifications: notificationsReducer
   },
   devTools: process.env.NODE_ENV !== 'production'

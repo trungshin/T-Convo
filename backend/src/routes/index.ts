@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import auth from './auth';
-// import users from './user.routes';
+import users from './user';
 import posts from './post';
 // import comments from './comment.routes';
 import follows from './follow';
@@ -10,7 +10,7 @@ import follows from './follow';
 
 const router = Router();
 router.use('/auth', auth);
-// router.use('/users', users);
+router.use('/user', users);
 router.use('/post', posts);
 // router.use('/', comments);
 router.use('/', follows);

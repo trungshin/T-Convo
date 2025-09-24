@@ -1,4 +1,3 @@
-// app/(app)/layout.tsx
 "use client";
 import React from "react";
 import UnauthLeftNav from "@/components/UnauthLeftNav";
@@ -16,7 +15,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <aside className="md:col-span-2">
               <UnauthLeftNav />
             </aside>
-            <div className="md:col-span-10 max-w-full min-h-screen flex flex-col items-start pl-10 border-x border-zinc-800">
+            <div className="md:col-span-10 max-w-full min-h-screen flex flex-col items-start pl-10">
               {children}
             </div>
           </div>

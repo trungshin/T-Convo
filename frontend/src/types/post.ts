@@ -1,4 +1,13 @@
-export type IUser = { id: string; username: string; displayName?: string; avatarUrl?: string };
+export type IUser = { 
+  id: string; 
+  _id: string;
+  username: string; 
+  displayName?: string; 
+  avatarUrl?: string;
+  bio?: string;
+  followersCount?: number;
+  followingCount?: number;
+};
 export type IPost = {
   _id: string;
   author: IUser;

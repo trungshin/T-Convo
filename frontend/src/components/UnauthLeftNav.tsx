@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Home, Search, PlusSquare, Heart, User, LogOut } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import LeftNavModal from '@/components/LeftNavModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from "@/store";
@@ -37,6 +38,16 @@ export default function UnauthLeftNav() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<{ title?: string; desc?: string } | null>(null);
+
+  const router = useRouter();
+  const openForAuth = (key: string) => {
+    if (key === 'home') {
+      router.push('/home');
+    }
+    if (key === 'profile') {
+      router.push(`/home/profile/${user?.username}`);
+    }
+  }
 
   const openFor = (key: string) => {
     // Customize title/description per item if desired
@@ -75,7 +86,7 @@ export default function UnauthLeftNav() {
           {items.map(i => (
             <li key={i.key}>
               <button
-                onClick={() => user ? alert('You are logged in') : openFor(i.key)}
+                onClick={() => user ? openForAuth(i.key) : openFor(i.key)}
                 className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/4 transition-colors cursor-pointer"
                 aria-label={i.label}
               >
