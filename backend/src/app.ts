@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { env } from '@config/env';
 import { errorHandler } from '@middlewares/errorHandler';
 import routes from './routes';
+import { corsOptions } from '@config/cors'
 
 export const createApp = () => {
   const app = express();
@@ -12,7 +13,7 @@ export const createApp = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+  app.use(cors(corsOptions));
 
   app.use('/api', routes);
 

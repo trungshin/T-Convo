@@ -1,8 +1,8 @@
-// src/sockets/index.ts
 import { Server, Socket } from 'socket.io';
 import http from 'http';
 import jwt from 'jsonwebtoken';
 import { env } from '@config/env';
+import { WHITELIST_DOMAINS } from '@utils/constants'
 
 // Singleton socket.io instance
 let io: Server | null = null;
@@ -30,7 +30,7 @@ export const initSocket = (server: http.Server): Server => {
   io = new Server(server, {
     cors: {
       origin: (origin, callback) => {
-        if (allowedOrigins.includes('*') || allowedOrigins.includes(origin ?? '')) {
+        if (WHITELIST_DOMAINS.includes(origin ?? '')) {
           return callback(null, true);
         }
 
