@@ -19,7 +19,7 @@ const nextConfig = {
     ]
   },
   env: {
-    NEXT_PUBLIC_API_BASE: process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000/api',
+    NEXT_PUBLIC_API_BASE: process.env.NEXT_PUBLIC_API_BASE || 'https://t-convo.onrender.com/api',
     //NEXT_PUBLIC_SOCKET_URL: process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:4000'
   }
 };
